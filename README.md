@@ -122,61 +122,7 @@ The reminder background process runs inside `/api/send-reminders.js`. It queries
 
 ---
 
-## ⚙️ How to Run Locally
-
-### 1. Initialize the Database
-1. Set up a free project on [Supabase](https://supabase.com/).
-2. Run the SQL schema script located in `supabase/migrations/001_create_appointments.sql` using the Supabase SQL editor.
-3. Turn on database replication for real-time updates:
-   * Go to Database -> Replication in your Supabase dashboard and enable replication for the `appointments` table.
-
-### 2. Initialize Messaging Sandbox
-1. Set up a free developer trial account on [Twilio](https://www.twilio.com/).
-2. Follow the steps on your Twilio Console under **Messaging → Try it out → Send a WhatsApp message** to activate your WhatsApp sandbox.
-3. Note your Sandbox WhatsApp phone number and your account credentials.
-
-### 3. Setup Environment Variables
-Clone the env template to `.env`:
-```bash
-cp .env.example .env
-```
-Fill in the values in your `.env` file:
-```env
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your-supabase-public-anon-key
-TWILIO_ACCOUNT_SID=ACyourtwilioaccountsid
-TWILIO_AUTH_TOKEN=yourtwilioauthtoken
-TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
-TWILIO_SMS_FROM=+1yourtwiliosmsnumber
-```
-
-### 4. Build and Run
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Start the local client server:
-   ```bash
-   npm run dev
-   ```
-3. To test serverless API functions locally, install the [Vercel CLI](https://vercel.com/docs/cli) and run:
-   ```bash
-   npx vercel dev
-   ```
-
----
-
-## 🚀 How to Deploy on Vercel (Hobby Tier)
-
-1. **GitHub Upload**: Push this project to a **Private** GitHub repository. (Since `.env` is listed in `.gitignore`, your secrets are 100% safe and will not be pushed).
-2. **Import Project**: Log in to [Vercel Dashboard](https://vercel.com/), select **Add New Project**, and import your repository.
-3. **Environment Settings**: Add the environment variables listed in your `.env` configuration file to **Project Settings → Environment Variables**.
-4. **Deploy**: Click deploy. Vercel will build the React build outputs, host them, and expose the Serverless Functions automatically.
-5. **Setting up the Cron**: Since Vercel native crons require a Pro subscription, set up a free scheduler on [cron-job.org](https://cron-job.org/) to trigger `GET https://your-project.vercel.app/api/send-reminders` every 1 minute.
-
----
-
-## 📈 Potential Future Enhancements
+ements
 * **User Authentication**: Implementing Supabase Auth to enable dashboard logins and secure multi-tenant scheduling data.
 * **Bi-directional Webhooks**: Processing incoming messages (e.g., text replies like "CANCEL" or "RESCHEDULE") via Twilio webhooks to allow direct booking management from WhatsApp.
 * **Timezone Localization**: Enhancing fields to store user specific timezones and converting times dynamically before dispatching Twilio alerts.
