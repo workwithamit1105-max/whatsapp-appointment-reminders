@@ -138,13 +138,13 @@ export default function App() {
             message: `Confirmation sent via ${result.channel.toUpperCase()} to ${inserted.phone_number}. Appointment: ${formatAppointmentTime(inserted.appointment_at)}`,
           });
 
-          // Auto-trigger the reminder 5 seconds later automatically (no tab switching needed!)
+          // Auto-trigger the reminder 2 minutes later automatically (no tab switching needed!)
           setTimeout(() => {
             fetch("/api/send-reminders", { method: "POST" })
               .then(r => r.json())
               .then(data => console.log("[Auto-Reminder] Triggered:", data))
               .catch(err => console.error("[Auto-Reminder] Failed:", err));
-          }, 5000);
+          }, 120000);
         } else {
           setBanner({
             type: "success",
