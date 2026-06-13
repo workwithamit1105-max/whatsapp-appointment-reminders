@@ -27,12 +27,14 @@ function formatDateTime(isoString) {
     year: "numeric",
     month: "short",
     day: "numeric",
+    timeZone: "Asia/Kolkata",
   };
   const formattedDate = date.toLocaleDateString("en-US", options);
   const formattedTime = date.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
+    timeZone: "Asia/Kolkata",
   });
   return { formattedDate, formattedTime };
 }
