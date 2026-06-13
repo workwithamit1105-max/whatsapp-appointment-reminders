@@ -38,17 +38,10 @@ export default async function handler(req, res) {
 
   try {
     const now = new Date().toISOString();
-    // 2-minute window to check for appointments starting within the next 2 minutes
-    const twoMinutesFromNow = new Date(
-      Date.now() + 2 * 60 * 1000
-    ).toISOString();
-
-    // Find appointments due within the next 2 minutes that haven't been reminded yet
+    // Find any appointments that haven't been reminded yet (no time constraint for demo)
     const { data: appointments, error: fetchError } = await supabase
       .from("appointments")
       .select("*")
-      .gte("appointment_at", now)
-      .lte("appointment_at", twoMinutesFromNow)
       .eq("reminder_sent", false)
       .not("status", "in", '("cancelled","completed")');
 
