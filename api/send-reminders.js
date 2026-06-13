@@ -38,17 +38,17 @@ export default async function handler(req, res) {
 
   try {
     const now = new Date().toISOString();
-    // 65-minute window ensures we don't miss appointments right on the boundary
-    const sixtyFiveMinutesFromNow = new Date(
-      Date.now() + 65 * 60 * 1000
+    // 3-minute window ensures we can demo reminders immediately in next 3 mins
+    const threeMinutesFromNow = new Date(
+      Date.now() + 3 * 60 * 1000
     ).toISOString();
 
-    // Find appointments due within the next 65 minutes that haven't been reminded yet
+    // Find appointments due within the next 3 minutes that haven't been reminded yet
     const { data: appointments, error: fetchError } = await supabase
       .from("appointments")
       .select("*")
       .gte("appointment_at", now)
-      .lte("appointment_at", sixtyFiveMinutesFromNow)
+      .lte("appointment_at", threeMinutesFromNow)
       .eq("reminder_sent", false)
       .not("status", "in", '("cancelled","completed")');
 
@@ -72,7 +72,7 @@ export default async function handler(req, res) {
     // Process each appointment that needs a reminder
     for (const appt of appointments) {
       const formattedTime = formatTime(appt.appointment_at);
-      const messageBody = `Hi ${appt.customer_name}! ⏰ Reminder: your appointment is in about 1 hour (${formattedTime}). See you soon!`;
+      const messageBody = `Hi ${appt.customer_name}! ⏰ Reminder: your appointment is in 1 minute (${formattedTime}). See you soon!`;
 
       let sent = false;
 
